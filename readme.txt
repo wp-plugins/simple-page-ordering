@@ -4,7 +4,7 @@ Donate link: http://www.cmurrayconsulting.com/software/wordpress-page-order-plug
 Tags: order, re-order, ordering, pages, page, manage, menu_order, hierarchical, ajax, drag-and-drop, admin
 Requires at least: 3.0.1
 Tested up to: 3.0.1
-Stable tag: 0.8.2
+Stable tag: 0.8.4
 
 Order your pages and other hierarchical post types with simple drag and drop. Also adds a drop down to change items per page.
 
@@ -28,6 +28,8 @@ Note that this plug-in only allows drag and drop resort within the same branch i
 
 This plug-in is being released as a "beta" in the Google sense. There are no known issues, but it requires much more comprehensive testing with custom post types and environments with large number of pages before we can label it "1.0". You must have JavaScript enabled for this plug-in to work.
 
+Please note that the plug-in is currently only minimally compatible with Internet Explorer 7 and earlier, due to limitations within those browsers.
+
 
 == Installation ==
 
@@ -45,6 +47,12 @@ folder to the `/wp-content/plugins/` directory
 
 
 == Changelog ==
+
+= 0.8.4 =
+* Loosened constraints on drag and drop to ease dropping into top and bottom position
+* Fixed row background staying "white" after dropping into a new position
+* Fixed double border on the bottom of the row while dragging
+* Improved some terminology (with custom post types in mind)
 
 = 0.8.2 =
 * Simplified code - consolidated hooks

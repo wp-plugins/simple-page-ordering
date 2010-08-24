@@ -1,7 +1,7 @@
 jQuery("table.widefat tbody").sortable({  
 	cursor: 'move',
 	axis: 'y',
-	containment: 'parent',
+	containment: 'table.widefat',
 	scrollSensitivity: 40,
 	helper: function(e, ui) {					
 		ui.children().each(function() { jQuery(this).width(jQuery(this).width()); });
@@ -9,11 +9,12 @@ jQuery("table.widefat tbody").sortable({
 	},
 	start: function(event, ui) {
 		if ( ! ui.item.hasClass('alternate') ) ui.item.css( 'background-color', '#ffffff' );
+		ui.item.children('td, th').css('border','none');
 		ui.item.css( 'outline', '1px solid #dfdfdf' );
 	},
 	stop: function(event, ui) {		
-		if ( ! ui.item.hasClass('alternate') ) ui.item.css( 'background-color', 'inherit' );
-		ui.item.css( 'outline', '0' );
+		ui.item.removeAttr('style');
+		ui.item.children('td, th').removeAttr('style');
 	},
 	update: function(event, ui) {	
 		if ( ui.item.hasClass('inline-editor') ) {

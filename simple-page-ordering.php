@@ -3,7 +3,7 @@
  Plugin Name: Simple Page Ordering
  Plugin URI: http://www.cmurrayconsulting.com/software/wordpress-page-order-plugin/
  Description: Order your pages and other hierarchical post types with drag and drop. Also adds a filter for items to show per page.
- Version: 0.8.2
+ Version: 0.8.4
  Author: Jacob M Goldman (C. Murray Consulting)
  Author URI: http://www.cmurrayconsulting.com
 
@@ -41,7 +41,7 @@ function spo_edit_posts_per_page( $per_page, $post_type )
 		
 	add_action( 'restrict_manage_posts', 'spo_posts_per_page_filter' );			// posts per page drop down UI
 	add_action( 'admin_print_styles', 'spo_admin_styles' );						// special styles (move cursor), spinner positioning
-	wp_enqueue_script( 'spo-ordering', plugin_dir_url( __FILE__ ) . '/spo-ordering.js', array('jquery-ui-sortable'), '0.8.2', true );
+	wp_enqueue_script( 'spo-ordering', plugin_dir_url( __FILE__ ) . '/spo-ordering.js', array('jquery-ui-sortable'), '0.8.4', true );
 	add_filter( 'contextual_help', 'spo_contextual_help' );
 	
 	if ( isset( $_GET['spo'] ) && is_numeric( $_GET['spo'] ) && ( $_GET['spo'] == -1 || ($_GET['spo']%10) == 0 ) ) :
@@ -67,9 +67,9 @@ function spo_posts_per_page_filter()
 	$spo = isset($_GET['spo']) ? (int)$_GET['spo'] : $per_page;
 ?>
 	<select name="spo" style="width: 100px;">
-		<option<?php selected( $spo, -1 ); ?> value="-1"><?php _e('All pages '); ?></option>
+		<option<?php selected( $spo, -1 ); ?> value="-1"><?php _e('Show all'); ?></option>
 		<?php for( $i=10;$i<=100;$i+=10 ) : ?>
-		<option<?php selected( $spo, $i ); ?> value="<?php echo $i ?>"><?php echo $i; ?> per page</option>
+		<option<?php selected( $spo, $i ); ?> value="<?php echo $i ?>"><?php echo $i; ?> <?php _e('per page'); ?></option>
 		<?php endfor; ?>		
 	</select>
 <?php
