@@ -3,7 +3,7 @@
  Plugin Name: Simple Page Ordering
  Plugin URI: http://www.thinkoomph.com/plugins-modules/wordpress-page-order-plugin/
  Description: Order your pages and hierarchical post types using drag and drop on the built in page list. Also adds a filter for items to show per page. For further instructions, open the "Help" tab on the Pages screen. 
- Version: 0.9
+ Version: 0.9.1
  Author: Jake Goldman (Oomph, Inc)
  Author URI: http://www.thinkoomph.com
 

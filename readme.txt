@@ -4,7 +4,7 @@ Donate link: http://www.thinkoomph.com/plugins-modules/wordpress-page-order-plug
 Tags: order, re-order, ordering, pages, page, manage, menu_order, hierarchical, ajax, drag-and-drop, admin
 Requires at least: 3.0.1
 Tested up to: 3.1
-Stable tag: 0.9
+Stable tag: 0.9.1
 
 Order your pages and other hierarchical post types with simple drag and drop. Also adds a drop down to change items per page.
 
@@ -48,15 +48,12 @@ folder to the `/wp-content/plugins/` directory
 
 == Changelog ==
 
-= 0.9.1 =
-* Fix hidden columns from reappearing after sort
-
 = 0.9 =
 * Fix page count display always showing "0" on non-hierarchical post types (Showing 1-X of X)
 * Fix hidden menu order not updating after sort (causing Quick Edit to reset order when used right after sorting)
-* "Move" cursor set by JavaScript instead of CSS (will not appear if JavaScript disabled)
+* "Move" cursor only set if JavaScript enabled
 * Added further directions in the plug-in description (some users were confused about how to use it)
-* Tested with 3.1 RC
+* Basic compatibility with 3.1 RC (prevent clashes with post list sorting)
 
 = 0.8.4 =
 * Loosened constraints on drag and drop to ease dropping into top and bottom position
