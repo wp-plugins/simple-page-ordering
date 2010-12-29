@@ -48,12 +48,15 @@ folder to the `/wp-content/plugins/` directory
 
 == Changelog ==
 
+= 0.9.1 =
+* Fix hidden columns from reappearing after sort
+
 = 0.9 =
 * Fix page count display always showing "0" on non-hierarchical post types (Showing 1-X of X)
 * Fix hidden menu order not updating after sort (causing Quick Edit to reset order when used right after sorting)
-* "Move" cursor only set if JavaScript enabled
+* "Move" cursor set by JavaScript instead of CSS (will not appear if JavaScript disabled)
 * Added further directions in the plug-in description (some users were confused about how to use it)
-* Basic compatibility with 3.1 RC (prevent clashes with post list sorting)
+* Tested with 3.1 RC
 
 = 0.8.4 =
 * Loosened constraints on drag and drop to ease dropping into top and bottom position

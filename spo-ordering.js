@@ -11,12 +11,12 @@ jQuery("table.widefat tbody").sortable({
 	},
 	start: function(event, ui) {
 		if ( ! ui.item.hasClass('alternate') ) ui.item.css( 'background-color', '#ffffff' );
-		ui.item.children('td,th').css('border','none');
+		ui.item.children('td,th').css('border-bottom-width','0');
 		ui.item.css( 'outline', '1px solid #dfdfdf' );
 	},
 	stop: function(event, ui) {		
 		ui.item.removeAttr('style');
-		ui.item.children('td,th').removeAttr('style');
+		ui.item.children('td,th').css('border-bottom-width','1px');
 	},
 	update: function(event, ui) {	
 		if ( ui.item.hasClass('inline-editor') ) {
