@@ -1,11 +1,11 @@
 <?php
 /**
  Plugin Name: Simple Page Ordering
- Plugin URI: http://www.cmurrayconsulting.com/software/wordpress-page-order-plugin/
- Description: Order your pages and other hierarchical post types with drag and drop. Also adds a filter for items to show per page.
- Version: 0.8.4
- Author: Jacob M Goldman (C. Murray Consulting)
- Author URI: http://www.cmurrayconsulting.com
+ Plugin URI: http://www.thinkoomph.com/plugins-modules/wordpress-page-order-plugin/
+ Description: Order your pages and hierarchical post types using drag and drop on the built in page list. Also adds a filter for items to show per page. For further instructions, open the "Help" tab on the Pages screen. 
+ Version: 0.9
+ Author: Jake Goldman (Oomph, Inc)
+ Author URI: http://www.thinkoomph.com
 
     Plugin: Copyright 2009 C. Murray Consulting  (email : jake@cmurrayconsulting.com)
 
@@ -33,15 +33,15 @@ add_filter( 'edit_posts_per_page', 'spo_edit_posts_per_page', 10, 2 );
 function spo_edit_posts_per_page( $per_page, $post_type )
 {		
 	if ( !current_user_can('edit_others_pages') )								// check permission
-		return;
+		return $per_page;
 	
 	$post_type_object = get_post_type_object( $post_type );
 	if ( !$post_type_object->hierarchical )										// only hierarchical post types apply
-		return;
+		return $per_page;
 		
 	add_action( 'restrict_manage_posts', 'spo_posts_per_page_filter' );			// posts per page drop down UI
-	add_action( 'admin_print_styles', 'spo_admin_styles' );						// special styles (move cursor), spinner positioning
-	wp_enqueue_script( 'spo-ordering', plugin_dir_url( __FILE__ ) . '/spo-ordering.js', array('jquery-ui-sortable'), '0.8.4', true );
+	add_action( 'admin_print_styles', 'spo_admin_styles' );						// special styles (move cursor)
+	wp_enqueue_script( 'spo-ordering', plugin_dir_url( __FILE__ ) . '/spo-ordering.js', array('jquery-ui-sortable'), '0.9', true );
 	add_filter( 'contextual_help', 'spo_contextual_help' );
 	
 	if ( isset( $_GET['spo'] ) && is_numeric( $_GET['spo'] ) && ( $_GET['spo'] == -1 || ($_GET['spo']%10) == 0 ) ) :
@@ -66,10 +66,10 @@ function spo_posts_per_page_filter()
 			
 	$spo = isset($_GET['spo']) ? (int)$_GET['spo'] : $per_page;
 ?>
-	<select name="spo" style="width: 100px;">
+	<select name="spo" style="width: 110px;">
 		<option<?php selected( $spo, -1 ); ?> value="-1"><?php _e('Show all'); ?></option>
 		<?php for( $i=10;$i<=100;$i+=10 ) : ?>
-		<option<?php selected( $spo, $i ); ?> value="<?php echo $i ?>"><?php echo $i; ?> <?php _e('per page'); ?></option>
+		<option<?php selected( $spo, $i ); ?> value="<?php echo $i; ?>"><?php echo $i; ?> <?php _e('per page'); ?></option>
 		<?php endfor; ?>		
 	</select>
 <?php
@@ -78,17 +78,17 @@ function spo_posts_per_page_filter()
 /** 
  * styling and help
  */
-
+ 
 function spo_admin_styles() {
-	echo '<style type="text/css">table.widefat tbody th, table.widefat tbody td { cursor: move; }</style>';
+	echo '<style type="text/css">.js table.widefat tbody th, .js table.widefat tbody td { cursor: move; }</style>';
 }
 
 function spo_contextual_help( $help )
 {
 	return $help . '
-		<p><strong>Simple Page Ordering</strong></p>
+		<p><strong>'. __( 'Simple Page Ordering' ) . '</strong></p>
 		
-		<p><a href="http://www.cmurrayconsulting.com/software/wordpress-page-order-plugin/" target="_blank">Simple Page Ordering</a> is a plug-in by <a href="http://www.jakegoldman.net" target="_blank">Jake Goldman</a> (<a href="http://www.cmurrayconsulting.com/software/wordpress-page-order-plugin/" target="_blank">C. Murray Consulting</a>) that  allows you to order pages and other hierarchical post types with drag and drop.</p>
+		<p><a href="http://www.thinkoomph.com/plugins-modules/wordpress-page-order-plugin/" target="_blank">Simple Page Ordering</a> is a plug-in by <a href="http://www.jakegoldman.net" target="_blank">Jake Goldman</a> (<a href="http://www.thinkoomph.com" target="_blank">Oomph, Inc</a>) that  allows you to order pages and other hierarchical post types with drag and drop.</p>
 		
 		<p>To reposition an item, simply drag and drop the row by "clicking and holding" it anywhere (outside of the links and form controls) and moving it to its new position.</p>
 		
@@ -116,6 +116,7 @@ function spo_do_page_ordering()
 	
 	$previd = isset($_POST['previd']) ? $_POST['previd'] : false;
 	$nextid = isset($_POST['nextid']) ? $_POST['nextid'] : false;
+	$new_pos = array(); // store new positions for ajax
 	
 	if ( $previd ) {
 		
@@ -127,6 +128,7 @@ function spo_do_page_ordering()
 			if ( $sibling->ID == $previd ) {
 				$menu_order = $sibling->menu_order + 1;
 				wp_update_post(array( 'ID' => $post->ID, 'menu_order' => $menu_order ));  // update the actual moved post to 1 after prev
+				$new_pos[$post->ID] = $menu_order;
 				continue;
 			}
 			
@@ -138,10 +140,11 @@ function spo_do_page_ordering()
 			if ( isset($menu_order) ) {
 				$menu_order++;
 				wp_update_post(array( 'ID' => $sibling->ID, 'menu_order' => $menu_order ));  // update the actual moved post to 1 after prev	
-			}		
+				$new_pos[$sibling->ID] = $menu_order;
+			}
 		
 		endforeach;
-			
+		
 	}
 	
 	if ( !isset($menu_order) && $nextid ) {
@@ -154,6 +157,7 @@ function spo_do_page_ordering()
 			if ( $sibling->ID == $nextid ) {
 				$menu_order = $sibling->menu_order - 1;
 				wp_update_post(array( 'ID' => $post->ID, 'menu_order' => $menu_order ));  // update the actual moved post to 1 after prev
+				$new_pos[$post->ID] = $menu_order;
 				continue;
 			}
 			
@@ -165,6 +169,7 @@ function spo_do_page_ordering()
 			if ( isset($menu_order) ) {
 				$menu_order--;
 				wp_update_post(array( 'ID' => $sibling->ID, 'menu_order' => $menu_order ));  // update the actual moved post to 1 after prev	
+				$new_pos[$sibling->ID] = $menu_order;
 			}		
 		
 		endforeach;
@@ -176,5 +181,5 @@ function spo_do_page_ordering()
 	if ( !empty($children) )
 		die('children');
 	
-	die();
+	die( json_encode($new_pos) );
 }

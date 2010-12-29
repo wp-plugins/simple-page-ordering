@@ -1,3 +1,5 @@
+jQuery('table.widefat tbody th, table.widefat tbody td').css('cursor','move');
+
 jQuery("table.widefat tbody").sortable({  
 	cursor: 'move',
 	axis: 'y',
@@ -9,17 +11,22 @@ jQuery("table.widefat tbody").sortable({
 	},
 	start: function(event, ui) {
 		if ( ! ui.item.hasClass('alternate') ) ui.item.css( 'background-color', '#ffffff' );
-		ui.item.children('td, th').css('border','none');
+		ui.item.children('td,th').css('border','none');
 		ui.item.css( 'outline', '1px solid #dfdfdf' );
 	},
 	stop: function(event, ui) {		
 		ui.item.removeAttr('style');
-		ui.item.children('td, th').removeAttr('style');
+		ui.item.children('td,th').removeAttr('style');
 	},
 	update: function(event, ui) {	
 		if ( ui.item.hasClass('inline-editor') ) {
 			jQuery("table.widefat tbody").sortable('cancel');
 			alert( 'Please close the quick editor before reordering this item.' );
+			return;
+		}
+		if ( jQuery('table.widefat th.sorted').length > 0 ) {
+			jQuery("table.widefat tbody").sortable('cancel');
+			alert( 'Please return the list to the default, menu order sorting before ordering items.' );
 			return;
 		}
 		
@@ -56,7 +63,11 @@ jQuery("table.widefat tbody").sortable({
 		// go do the sorting stuff via ajax
 		jQuery.post( ajaxurl, { action: 'simple_page_ordering', id: postid, previd: prevpostid, nextid: nextpostid }, function(response){			
 			if ( response == 'children' ) window.location.reload();
-			else ui.item.find('.check-column input').show().siblings('img').remove();
+			else {
+				var changes = jQuery.parseJSON(response);
+				jQuery.each(changes, function(key,value) { jQuery('#inline_'+key+' .menu_order').html(value); });
+				ui.item.find('.check-column input').show().siblings('img').remove();
+			}
 		});
 		
 		// fix cell colors
