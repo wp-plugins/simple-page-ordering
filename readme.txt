@@ -1,5 +1,5 @@
 === Simple Page Ordering ===
-Contributors: Jake Goldman (C. Murray Consulting)
+Contributors: jakemgold
 Donate link: http://www.thinkoomph.com/plugins-modules/wordpress-page-order-plugin/
 Tags: order, re-order, ordering, pages, page, manage, menu_order, hierarchical, ajax, drag-and-drop, admin
 Requires at least: 3.0.1
