@@ -1,6 +1,9 @@
-jQuery('table.widefat tbody th, table.widefat tbody td').css('cursor','move');
+if ( jQuery('table.widefat th.sorted').length < 1 ) {
 
-jQuery("table.widefat tbody").sortable({  
+jQuery('table.widefat tbody th, table.widefat tbody td').css('cursor','move');
+	
+jQuery("table.widefat tbody").sortable({
+	items: 'tr:not(.inline-edit-row)',
 	cursor: 'move',
 	axis: 'y',
 	containment: 'table.widefat',
@@ -19,17 +22,6 @@ jQuery("table.widefat tbody").sortable({
 		ui.item.children('td,th').css('border-bottom-width','1px');
 	},
 	update: function(event, ui) {	
-		if ( ui.item.hasClass('inline-editor') ) {
-			jQuery("table.widefat tbody").sortable('cancel');
-			alert( 'Please close the quick editor before reordering this item.' );
-			return;
-		}
-		if ( jQuery('table.widefat th.sorted').length > 0 ) {
-			jQuery("table.widefat tbody").sortable('cancel');
-			alert( 'Please return the list to the default, menu order sorting before ordering items.' );
-			return;
-		}
-		
 		var postid = ui.item.find('.check-column input').val();	// this post id
 		var postparent = ui.item.find('.post_parent').html(); 	// post parent
 		
@@ -78,3 +70,5 @@ jQuery("table.widefat tbody").sortable({
 		});
 	}
 }).disableSelection();
+
+}
