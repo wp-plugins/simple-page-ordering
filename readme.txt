@@ -4,7 +4,7 @@ Donate link: http://www.get10up.com/plugins/simple-page-ordering-wordpress/
 Tags: order, re-order, ordering, pages, page, manage, menu_order, hierarchical, ajax, drag-and-drop, admin
 Requires at least: 3.0.1
 Tested up to: 3.1
-Stable tag: 0.9.5
+Stable tag: 0.9.6
 
 Order your pages and other hierarchical post types with simple drag and drop. Also adds a drop down to change items per page.
 
@@ -47,6 +47,9 @@ folder to the `/wp-content/plugins/` directory
 
 
 == Changelog ==
+
+= 0.9.6 =
+* Fix for broken inline editing (quick edit) fields in Firefox
 
 = 0.9.5 =
 * Smarter awareness of "sorted" modes in WordPress 3.1 (can only use when sorted by menu order)

@@ -19,7 +19,7 @@ jQuery("table.widefat tbody").sortable({
 	},
 	stop: function(event, ui) {		
 		ui.item.removeAttr('style');
-		ui.item.children('td,th').css('border-bottom-width','1px');
+		ui.item.children('td,th').css('border-bottom-width','1px');		
 	},
 	update: function(event, ui) {	
 		var postid = ui.item.find('.check-column input').val();	// this post id
@@ -69,6 +69,6 @@ jQuery("table.widefat tbody").sortable({
 			else jQuery(this).removeClass('alternate');
 		});
 	}
-}).disableSelection();
+});
 
 }
