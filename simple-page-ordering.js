@@ -1,5 +1,3 @@
-if ( jQuery('table.widefat th.sorted').length < 1 ) {
-
 jQuery('table.widefat tbody th, table.widefat tbody td').css('cursor','move');
 	
 jQuery("table.widefat tbody").sortable({
@@ -19,9 +17,12 @@ jQuery("table.widefat tbody").sortable({
 	},
 	stop: function(event, ui) {		
 		ui.item.removeAttr('style');
-		ui.item.children('td,th').css('border-bottom-width','1px');		
+		ui.item.children('td,th').css('border-bottom-width','1px');
 	},
 	update: function(event, ui) {	
+		jQuery('table.widefat tbody th, table.widefat tbody td').css('cursor','default');
+		jQuery("table.widefat tbody").sortable('disable');
+		
 		var postid = ui.item.find('.check-column input').val();	// this post id
 		var postparent = ui.item.find('.post_parent').html(); 	// post parent
 		
@@ -45,7 +46,9 @@ jQuery("table.widefat tbody").sortable({
 		// if previous and next not at same tree level, or next not at same tree level and the previous is the parent of the next, or just moved item beneath its own children 					
 		if ( ( prevpostid == undefined && nextpostid == undefined ) || ( nextpostid == undefined && nextpostparent == prevpostid ) || ( nextpostid != undefined && prevpostparent == postid ) ) {
 			jQuery("table.widefat tbody").sortable('cancel');
-			alert( "Items can only be repositioned within their current branch in the page tree / hierarchy (next to pages with the same parent).\n\nIf you want to move this item into a different part of the page tree, use the Quick Edit feature to change the parent before continuing." );
+			alert( simple_page_ordering_l10n.RepositionTree );
+			jQuery('table.widefat tbody th, table.widefat tbody td').css('cursor','move');
+			jQuery("table.widefat tbody").sortable('enable');
 			return;
 		}
 					
@@ -59,6 +62,8 @@ jQuery("table.widefat tbody").sortable({
 				var changes = jQuery.parseJSON(response);
 				jQuery.each(changes, function(key,value) { jQuery('#inline_'+key+' .menu_order').html(value); });
 				ui.item.find('.check-column input').show().siblings('img').remove();
+				jQuery('table.widefat tbody th, table.widefat tbody td').css('cursor','move');
+				jQuery("table.widefat tbody").sortable('enable');
 			}
 		});
 		
@@ -70,5 +75,3 @@ jQuery("table.widefat tbody").sortable({
 		});
 	}
 });
-
-}
