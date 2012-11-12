@@ -3,7 +3,7 @@ Contributors: jakemgold, 10up, thinkoomph
 Donate link: http://10up.com/plugins/simple-page-ordering-wordpress/
 Tags: order, re-order, ordering, pages, page, manage, menu_order, hierarchical, ajax, drag-and-drop, admin
 Requires at least: 3.2
-Tested up to: 3.4.2
+Tested up to: 3.5
 Stable tag: 2.0
 
 Order your pages and other hierarchical post types with simple drag and drop right from the standard page list.
