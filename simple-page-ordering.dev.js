@@ -14,8 +14,14 @@ function update_simple_ordering_callback(response) {
 		var inline_key = document.getElementById('inline_' + key);
 		if ( null !== inline_key && new_pos.hasOwnProperty(key) ) {
 			if ( undefined !== new_pos[key]['menu_order'] ) {
-				inline_key.querySelector('.menu_order').innerHTML = new_pos[key]['menu_order'];
-				inline_key.querySelector('.post_parent').innerHTML = new_pos[key]['post_parent'];
+				var dom_menu_order = inline_key.querySelector('.menu_order');
+				if ( null !== dom_menu_order )
+					dom_menu_order.innerHTML = new_pos[key]['menu_order'];
+
+				var dom_post_parent = inline_key.querySelector('.post_parent');
+				if ( null !== dom_post_parent )
+					dom_post_parent.innerHTML = new_pos[key]['post_parent'];
+
 				var post_title = inline_key.querySelector('.post_title').innerHTML;
 
 				var dashes = 0;
