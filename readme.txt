@@ -4,7 +4,7 @@ Donate link: http://10up.com/plugins/simple-page-ordering-wordpress/
 Tags: order, re-order, ordering, pages, page, manage, menu_order, hierarchical, ajax, drag-and-drop, admin
 Requires at least: 3.4
 Tested up to: 3.6
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 
 Order your pages and other hierarchical post types with simple drag and drop right from the standard page list.
 
@@ -76,6 +76,10 @@ This feature is already built into WordPress natively, but a bit tucked away. If
 
 
 == Changelog ==
+
+= 2.1.2 =
+* Bug fix: hierarchical custom post types without page-attributes was still broken - doh!
+* Bug fix: extreme edge case where post columns did not include the post title now supported
 
 = 2.1.1 =
 * Bug fix: custom post types with page-attributes or hierarchical properties, but not both, breaking ordering
